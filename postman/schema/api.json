@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+      "version": "1.0.0",
+      "title": "idgen",
+      "license": {
+          "name": "MIT"
+      }
+  },
+  "servers": [
+      {
+          "url": "localhost:8000"
+      }
+  ],
+  "paths": {
+      "/ids/gen": {
+          "get": {
+              "summary": "Generate id",
+              "operationId": "genId",
+              "tags": [
+                  "id"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "ID generated",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Id"
+                              }
+                          },
+                          "application/xml": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Id"
+                              }
+                          }
+                      }
+                  },
+                  "default": {
+                      "description": "unexpected error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Error"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  },
+  "components": {
+      "schemas": {
+          "Id": {
+              "type": "int64"
+          },
+          "Error": {
+              "type": "object",
+              "required": [
+                  "code",
+                  "message"
+              ],
+              "properties": {
+                  "code": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "message": {
+                      "type": "string"
+                  }
+              }
+          }
+      },
+      "securitySchemes": {
+          "BasicAuth": {
+              "type": "http",
+              "scheme": "basic"
+          }
+      }
+  },
+  "security": [
+      {
+          "BasicAuth": []
+      }
+  ]
+}
